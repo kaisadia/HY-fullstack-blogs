@@ -100,9 +100,9 @@ test('blog without url cannot be added', async () => {
   expect(allBlogs.length).toBe(Number(helper.initialBlogs.length))
   })
 
-test('blog can be deleted', async () => {
-    const blogsAtStart = await helper.blogsInDb()
-    const blogToDelete = blogsAtStart[0]
+  test('blog can be deleted', async () => {
+      const blogsAtStart = await helper.blogsInDb()
+      const blogToDelete = blogsAtStart[0]
 
     await api
       .delete(`/api/blogs/${blogToDelete.id}`)
@@ -115,7 +115,26 @@ test('blog can be deleted', async () => {
     expect(titles).not.toContain(blogToDelete.title)
   })
 
+test('blog can be updated', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToUpdate = blogsAtStart[0]
+  const updatedBlog = {
+    title: blogToUpdate.title,
+    author: blogToUpdate.author,
+    url: blogToUpdate.url,
+    likes: blogToUpdate.likes +1
+  }
 
+  await api
+  .put(`/api/blogs/${blogToUpdate.id}`)
+  .send(updatedBlog)
+  .expect(200)
+
+const blogsAtEnd = await helper.blogsInDb()
+
+expect(blogsAtEnd[0]).not.toEqual(blogsAtStart[0])
+})
+  
 
   afterAll(async () => {
     await mongoose.connection.close()
