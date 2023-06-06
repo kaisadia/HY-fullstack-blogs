@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const TestBlog = require('../mongo')
 
 
 const moreThanOneBlog = [

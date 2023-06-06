@@ -6,14 +6,39 @@ blogsRouter.get('/', async (request, response) => {
       response.json(blogs)
 })
 
-blogsRouter.post('/', (request, response) => {
-  const blog = new Blog(request.body)
-
-  blog
-    .save()
-    .then(result => {
-      response.status(201).json(result)
+blogsRouter.post('/', async (request, response) => {
+  const blog = new Blog({
+    title: request.body.title,
+    author: request.body.author,
+    url: request.body.url,
+    likes:request.body.likes? request.body.likes : 0,
     })
+
+  if (request.body.title === undefined) {
+      return response.status(400).json({ error: 'title missing' })
+    } else if (request.body.url === undefined) {
+      return response.status(400).json({ error: 'url missing' })}
+    else {
+    const savedBlog = await blog.save()
+    response.status(201).json(savedBlog)
+    }
 })
+
+blogsRouter.get('/:id', async (request, response) => {
+  const blog = await Blog.findById(request.params.id)
+  if (blog) {
+    response.json(blog)
+  } else {
+    response.status(404).end()
+  }
+})
+
+blogsRouter.delete('/:id', async (request, response) => { 
+  await Blog.findByIdAndRemove(request.params.id)
+  response.status(204).end()
+})
+
+
+
 
 module.exports = blogsRouter
