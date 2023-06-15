@@ -21,6 +21,7 @@ usersRouter.post('/', async (request, response) => {
       passwordHash: await bcrypt.hash(password, saltRounds)
     })
 
+    
   
     const savedUser = await user.save()
   

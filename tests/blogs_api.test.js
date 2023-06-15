@@ -115,7 +115,7 @@ test('blog without url cannot be added', async () => {
     expect(titles).not.toContain(blogToDelete.title)
   })
 
-test('blog can be updated', async () => {
+  test('blog can be updated', async () => {
   const blogsAtStart = await helper.blogsInDb()
   const blogToUpdate = blogsAtStart[0]
   const updatedBlog = {
@@ -135,7 +135,6 @@ const blogsAtEnd = await helper.blogsInDb()
 expect(blogsAtEnd[0]).not.toEqual(blogsAtStart[0])
 })
   
-
   afterAll(async () => {
     await mongoose.connection.close()
   })

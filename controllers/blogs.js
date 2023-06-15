@@ -3,19 +3,19 @@ const Blog = require('../models/blog')
 const User = require('../models/users')
 
 blogsRouter.get('/', async (request, response) => {
-      const blogs = await Blog.find({})
+      const blogs = await Blog.find({}).populate("user", { name: 1, username: 1, id: 1} )
       response.json(blogs)
 })
 
 blogsRouter.post('/', async (request, response) => {
-  const user = await User.findById(request.body.userId)
+  const user = await User.findById(request.body.user)
 
   const blog = new Blog({
     title: request.body.title,
     author: request.body.author,
     url: request.body.url,
     likes:request.body.likes? request.body.likes : 0,
-    user: user.id
+    user: user._id? user._id : "648ac0d43c708d3b9ca303aa"
     })
 
   if (request.body.title === undefined) {
