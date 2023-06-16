@@ -1,4 +1,5 @@
 const logger = require('./logger')
+const User = require('../models/users')
 
 const errorHandler = (error, request, response, next) => {
     logger.error(error.message)

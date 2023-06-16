@@ -3,13 +3,18 @@ const supertest = require('supertest')
 const app = require('../app')
 const helper = require('../utils/test_helper')
 const Blog = require('../models/blog')
-
+const bcrypt = require('bcrypt')
+const User = require('../models/users')
+const jwt = require('jsonwebtoken')
 
 const api = supertest(app)
 
 beforeEach(async () => {
+ 
   await Blog.deleteMany({})
   await Blog.insertMany(helper.initialBlogs)
+
+ 
 })
 
 test('blogs are returned as json', async () => {
@@ -31,6 +36,12 @@ test('blog contains id', async () => {
   })
 
 test('blog can be added ', async () => {
+  const passwordHash = await bcrypt.hash("password", 10);
+  const user = await new User({ username: "Somebody", passwordHash }).save();
+
+  const userToken = { username: "Somebody", id: user.id };
+  const token = jwt.sign(userToken, process.env.SECRET)
+
     const newBlog = {
       title: "an important blog post",
       author: 'Jack Smith',
@@ -40,6 +51,7 @@ test('blog can be added ', async () => {
 
     await api
       .post('/api/blogs')
+      .set("Authorization", `Bearer ${token}`)
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
