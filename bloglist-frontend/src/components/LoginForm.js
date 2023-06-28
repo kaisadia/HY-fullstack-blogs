@@ -8,9 +8,12 @@ function LoginForm({user, setUser, username, password, setUsername, setPassword,
 const handleLogin = async (event) => {
     event.preventDefault();
 try {
-    const user = await loginService.login({username, password})
-    blogService.setToken(user.token)
-    setUser(user);
+    const user = await loginService.login({username, password})      //kirjaudutaan käyttäjänimellä ja salasanalla
+    window.localStorage.setItem(
+        'loggedBlogappUser', JSON.stringify(user)
+      )                                                             //käyttäjätiedot local storageen muistiin
+    blogService.setToken(user.token)                                //token käyttäjälle
+    setUser(user);                      
     setUsername('');
     setPassword('')
     setError(null)

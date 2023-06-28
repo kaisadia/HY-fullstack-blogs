@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import blogService from '../services/blogs';
+import LoginForm from './LoginForm';
 
 
 const BlogForm = ({blogs, setBlogs, user, setMessage, setError}) => {
@@ -36,10 +37,15 @@ const BlogForm = ({blogs, setBlogs, user, setMessage, setError}) => {
         }
       }
     
+    const clickHandler = () => {
+        window.localStorage.clear()
+    }
+
 
     return (
         <div>
         Welcome {user.name}
+        <button onClick={clickHandler}>Logout</button>
       <form onSubmit={addNote}>
       <div> Blog title 
       <input 
