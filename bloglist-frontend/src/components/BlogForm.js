@@ -1,14 +1,14 @@
 import React from 'react';
 import { useState } from 'react';
 import blogService from '../services/blogs';
-import LoginForm from './LoginForm';
 
 
-const BlogForm = ({blogs, setBlogs, user, setMessage, setError}) => {
+const BlogForm = ({blogs, setBlogs, user, setMessage, setError, blogFormRef}) => {
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
-   
+    
+  
     const addNote = async (event) => {
         event.preventDefault()
         const blogObject = {
@@ -16,7 +16,7 @@ const BlogForm = ({blogs, setBlogs, user, setMessage, setError}) => {
           author: author,
           url: url
         }
-      
+
         try {
           const returnedPost = await blogService.create(blogObject)
           setMessage('Blog post added!')
@@ -27,7 +27,7 @@ const BlogForm = ({blogs, setBlogs, user, setMessage, setError}) => {
           setTitle('')
           setAuthor('')
           setUrl('')
-          
+          blogFormRef.current.toggleVisibility()
         } catch (error) {
             setError('Oops, something went wrong')
           setTimeout(() => {
@@ -37,15 +37,10 @@ const BlogForm = ({blogs, setBlogs, user, setMessage, setError}) => {
         }
       }
     
-    const clickHandler = () => {
-        window.localStorage.clear()
-    }
-
+    
 
     return (
         <div>
-        Welcome {user.name}
-        <button onClick={clickHandler}>Logout</button>
       <form onSubmit={addNote}>
       <div> Blog title 
       <input 
@@ -73,10 +68,6 @@ const BlogForm = ({blogs, setBlogs, user, setMessage, setError}) => {
       </div>
       <button type="submit">Add</button>
     </form>  
-    {blogs
-      .filter(blog => blog.user.username === user.username)
-      .map(blog => <p>{blog.title} by {blog.author}</p>)
-    }
     </div>
     );
 };
