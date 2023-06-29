@@ -1,13 +1,12 @@
-import React from "react"
-import './errorNotification.css'
+import React from 'react';
+import './errorNotification.css';
 
 const ErrorNotification = ({ error }) => {
-    if (error === null) {
-    }
-  
-    return (
-      <div className="error"> {error} </div>
-    )
+  if (error === null) {
+    return;
   }
-  
-  export default ErrorNotification
+
+  return <div className="error"> {error} </div>;
+};
+
+export default ErrorNotification;
