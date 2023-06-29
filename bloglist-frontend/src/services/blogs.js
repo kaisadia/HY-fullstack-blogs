@@ -24,7 +24,6 @@ const create = async (newObject) => {
     method: 'POST'
   }
   try {
-    console.log(token)
     const response = await axios.post(baseUrl, newObject, config)
     return response.data
   } catch (error) {
@@ -33,9 +32,31 @@ const create = async (newObject) => {
 }
 
 const update = async (id, newObject) => {
-  const request = await axios.put(`${ baseUrl } /${id}`, newObject)
-  return request.then(response => response.data)
+try {
+  const response = await axios.put(`${baseUrl}/${id}`, newObject)
+  return response.data
+  
+} catch (error) {
+  console.log(error)
+}
 }
 
+
+const remove = async (id) => {
+  const config = {
+    headers: {Authorization: token},
+    method: 'DELETE'
+  }
+  try {
+    const response = await axios.delete(`${baseUrl}/${id}`, config)
+    return response.data
+  } catch (error) {
+    console.log(error)
+  }
+  }
+  
+
+
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, create, update, setToken }
+export default { getAll, create, update, setToken, remove }

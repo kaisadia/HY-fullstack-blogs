@@ -14,13 +14,16 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [message, setMessage] =useState(null)
   const [error, setError] =useState(null)
-
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
+  
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )  
-  }, [])
+  }, [blogs])                 //hakee aina kun blogeissa on tapahtunut muutos. Jos tyhjä, vain kerran
 
   useEffect(() => {           //tarkistaa esim. sivua uudelleen ladatessa localstoragesta onko käyttäjä jo kirjautunut 
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -39,15 +42,23 @@ const App = () => {
       <h2>Blogs</h2>
       <Notification message={message}/>
       <ErrorNotification error={error}/>
-      {!user && <LoginForm user={user} setUser={setUser} setError={setError} blogs={blogs}/>}
+      {!user && 
+      <LoginForm user={user} setUser={setUser} setError={setError} blogs={blogs}/>}
       {user && 
       <div>
       <Logout user={user}/>
       <Togglable user={user} ref={blogFormRef} button1='Create' button2='Cancel'>
-        <BlogForm blogs={blogs} setBlogs={setBlogs} user={user} setMessage={setMessage} setError={setError} blogFormRef={blogFormRef}/>
+        <BlogForm 
+        blogs={blogs} setBlogs={setBlogs} user={user} 
+        setMessage={setMessage} setError={setError} blogFormRef={blogFormRef} 
+        title={title} url={url} author={author}
+        setTitle={setTitle} setUrl={setUrl} setAuthor={setAuthor}/>
         </Togglable>
+        {blogs
+        .sort((a,b) => b.likes - a.likes)
+      .filter(blog => blog.user.username === user.username)
+      .map(blog => <BlogPost blog={blog} blogs={blogs}/>)}
         </div>}
-        <BlogPost blogs={blogs} user={user}/>
       </div>
     
   )

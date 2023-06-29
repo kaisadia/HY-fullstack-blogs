@@ -3,13 +3,10 @@ import { useState } from 'react';
 import blogService from '../services/blogs';
 
 
-const BlogForm = ({blogs, setBlogs, user, setMessage, setError, blogFormRef}) => {
-    const [title, setTitle] = useState('')
-    const [author, setAuthor] = useState('')
-    const [url, setUrl] = useState('')
-    
+const BlogForm = ({blogs, setBlogs, user, setMessage, setError, blogFormRef, title, setTitle, author, setAuthor, url, setUrl}) => {
+ 
   
-    const addNote = async (event) => {
+    const addBlog = async (event) => {
         event.preventDefault()
         const blogObject = {
           title: title,
@@ -23,7 +20,7 @@ const BlogForm = ({blogs, setBlogs, user, setMessage, setError, blogFormRef}) =>
           setTimeout(() => {
               setMessage(null)
             }, 4000)
-          setBlogs(blogs.concat(returnedPost))
+          setBlogs([returnedPost, ...blogs])
           setTitle('')
           setAuthor('')
           setUrl('')
@@ -41,7 +38,7 @@ const BlogForm = ({blogs, setBlogs, user, setMessage, setError, blogFormRef}) =>
 
     return (
         <div>
-      <form onSubmit={addNote}>
+      <form onSubmit={addBlog}>
       <div> Blog title 
       <input 
         type="text" 
