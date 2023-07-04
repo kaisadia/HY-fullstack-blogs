@@ -52,6 +52,7 @@ const BlogForm = ({
             type="text"
             value={title}
             name="title"
+            placeholder="title"
             onChange={(e) => {
               setTitle(e.target.value);
             }}
@@ -64,6 +65,7 @@ const BlogForm = ({
             type="text"
             value={author}
             name="author"
+            placeholder="author"
             onChange={(e) => {
               setAuthor(e.target.value);
             }}
@@ -76,6 +78,7 @@ const BlogForm = ({
             type="text"
             value={url}
             name="url"
+            placeholder="url"
             onChange={(e) => {
               setUrl(e.target.value);
             }}
