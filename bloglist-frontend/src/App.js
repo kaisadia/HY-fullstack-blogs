@@ -70,17 +70,19 @@ const App = () => {
               setAuthor={setAuthor}
             />
           </Togglable>
-          {blogs
-            .sort((a, b) => b.likes - a.likes)
-            .filter((blog) => blog.user.username === user.username)
-            .map((blog) => (
-              <BlogPost
-                key={blog.id}
-                blog={blog}
-                blogs={blogs}
-                setMessage={setMessage}
-              />
-            ))}
+          <div>
+            {blogs
+              .sort((a, b) => b.likes - a.likes)
+              .filter((blog) => blog.user.username === user.username)
+              .map((blog) => (
+                <BlogPost
+                  key={blog.id}
+                  blog={blog}
+                  blogs={blogs}
+                  setMessage={setMessage}
+                />
+              ))}
+          </div>
         </div>
       )}
     </div>

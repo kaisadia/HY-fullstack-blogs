@@ -33,18 +33,16 @@ function BlogPost({ blog, setMessage }) {
   };
 
   return (
-    <div>
-      <div key={blog.id}>
-        <p>{blog.title}</p>
-        <Togglable button1="Show" button2="Hide">
-          <p>URL: {blog.url}</p>
-          <p>
-            Likes: {blog.likes} <button onClick={updateLikes}>Like</button>
-          </p>
-          <p>Author: {blog.author}</p>
-          <button onClick={deleteHandler}>Remove</button>
-        </Togglable>
-      </div>
+    <div key={blog.id} className="blogs">
+      <p>{blog.title}</p>
+      <Togglable button1="Show" button2="Hide">
+        <p>URL: {blog.url}</p>
+        <p>
+          Likes: {blog.likes} <button onClick={updateLikes}>Like</button>
+        </p>
+        <p>Author: {blog.author}</p>
+        <button onClick={deleteHandler}>Remove</button>
+      </Togglable>
     </div>
   );
 }

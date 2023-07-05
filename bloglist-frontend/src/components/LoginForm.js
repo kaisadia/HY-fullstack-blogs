@@ -34,6 +34,7 @@ function LoginForm({ user, setUser, setError }) {
             {' '}
             Username
             <input
+              id="username"
               type="text"
               value={username}
               name="username"
@@ -47,6 +48,7 @@ function LoginForm({ user, setUser, setError }) {
             {' '}
             Password
             <input
+              id="password"
               type="text"
               value={password}
               name="password"
@@ -56,7 +58,9 @@ function LoginForm({ user, setUser, setError }) {
               }}
             />
           </div>
-          <button type="submit">Login</button>
+          <button id="login-button" type="submit">
+            Login
+          </button>
         </form>
       </div>
     );
